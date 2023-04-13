@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ezen.tmi.member.MemService">
+	
+	<!-- 회원정보 저장 -->
+	<insert id="memberinsert">
+	insert into pjmember(user_num, user_id, user_pw, user_nic,
+	user_birth, user_gender, user_address) 
+	values(mem_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},
+	#{param6})
+	</insert>
+	
+	<!-- 중복검사 -->
+	<select id="idCheck" resultType="int">
+	select count(*) from pjmember where user_id=#{param1}
+	</select>	
+	<select id="nicCheck" resultType="int">
+	select count(*) from pjmember where user_nic=#{param1}
+	</select>
+	
+	<!-- 회원 로그인 -->
+	<select id="member_Login" resultType="com.ezen.tmi.member.MemberDTO">
+	select * from pjmember where user_id = #{param1} and user_pw = #{param2}
+	</select>
+	
+	
+	<!-- 회원 정보 -->
+	<select id="member_Info" resultType="com.ezen.tmi.member.MemberDTO">
+	select * from pjmember where user_id = #{param1}
+	</select>
+	
+	<!-- 회원정보 수정 시 세션 아이디로 현재 닉네임 확인 -->
+	<select id="myid" resultType="String">
+	select user_nic from pjmember where user_id = #{param1}
+	</select>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="modify">
+	update pjmember set user_pw=#{param2}, user_nic=#{param3},
+	user_birth=#{param4}, user_address=#{param6} where user_id=#{param1}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="memberdelete">
+	delete from pjmember where user_id=#{param1}
+	</delete>
+	
+	<!-- QnA 저장 -->
+	<insert id="QnAinsert">
+	insert into pjboard(bo_num, bo_id, bo_type, bo_title,
+				bo_content, bo_img) 
+				values(board_seq.nextval,#{param1},#{param2},
+				#{param3},#{param4},#{param5})
+	</insert>
+
+	<!-- 내가 쓴 게시글 레코드 수 -->
+	<select id="cntmyboard" resultType="int">
+    select count(*)from pjboard where bo_id=#{param1}
+	</select>
+	
+	<!-- 내가 쓴 게시글 조회  -->
+	<select id="selectmyboard" resultType="com.ezen.tmi.member.MemberBoardDTO">
+   	select * from (
+   	select rownum rn,A.* from(  
+   	select * from pjboard where bo_id=#{param1} order by bo_num desc)A)
+	</select>
+	
+	<select id="member_myboard" resultType="com.ezen.tmi.member.MemberBoardDTO">
+	select *
+	from pjboard 
+	where bo_id=#{param1}
+	</select>
+	
+	<!-- 댓글 불러오기 -->
+	<select id="replyout" resultType="com.ezen.tmi.manager.ReplyDTO">
+	select * from PJREPLY where bo_num = #{param1}
+	</select>
+	
+	<!-- 문의글 자세히 보기 -->
+   <select id="boarddetail" resultType="com.ezen.tmi.member.MemberBoardDTO">
+   select bo_num,bo_type,bo_title,bo_id,to_char(bo_day,'yyyy-MM-dd')bo_day,
+         bo_content, bo_img
+   from pjboard
+   where bo_num = #{param1} 
+   </select>
+</mapper>
+
+
+
+
+
+
+
+
+

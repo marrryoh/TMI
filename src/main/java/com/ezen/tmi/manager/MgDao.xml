@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.tmi.manager.MgService">
+<!-- 영화 등록/관리 -->
+   <resultMap id="mgMov" type="com.ezen.tmi.manager.MgMovie_DTO">
+      <result column="movie_code" property="movie_code"/>
+      <result column="movie_name" property="movie_name"/>
+      <result column="movie_poster" property="movie_poster"/>
+      <result column="movie_director" property="movie_director"/>
+      <result column="movie_actor" property="movie_actor"/>
+      <result column="movie_rday" property="movie_rday"/>
+      <result column="movie_rtime" property="movie_rtime"/>
+      <result column="movie_jenre" property="movie_jenre"/>
+      <result column="movie_keyword" property="movie_keyword"/>
+      <result column="movie_plot" property="movie_plot"/>
+      <result column="movie_group" property="movie_group"/>
+      <result column="movie_link" property="movie_link"/>
+      <result column="movie_reserve" property="movie_reserve"/>
+      <result column="movie_pop" property="movie_pop"/>
+   </resultMap>
+<!-- 감독 등록/관리 -->
+   <resultMap id="mgDir" type="com.ezen.tmi.manager.MgDirector_DTO">
+      <result column="dir_code" property="dir_code"/>
+      <result column="dir_name" property="dir_name"/>
+      <result column="dir_birth" property="dir_birth"/>
+      <result column="dir_aff" property="dir_aff"/>
+      <result column="dir_debut" property="dir_debut"/>
+      <result column="dir_info" property="dir_info"/>
+      <result column="dir_pic" property="dir_pic"/>
+   </resultMap>
+   <!-- 영화 중복확인 쿼리문 -->
+   <select id="mvCheck" resultType="int">
+      select count(*) from PJMOVIE where movie_name=#{param1} and movie_director=#{param2}
+   </select>
+   <!-- 영화 등록 쿼리문 -->
+   <insert id="movin">
+      insert into
+        PJMOVIE(movie_code, movie_name, movie_poster, movie_director, movie_actor, movie_rday, 
+        movie_rtime, movie_jenre, movie_keyword, movie_plot, movie_group,movie_link,movie_reserve)
+        values(movie_code_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},
+        #{param6},#{param7},#{param8},#{param9},#{param10},#{param11},#{param12})
+   </insert>
+   <!-- 영화 출력 쿼리문 -->
+   <select id="movout" resultMap="mgMov">
+      select * from (select rownum rr,A. * from(select * from PJMOVIE)A) where rr between #{start} AND #{end}
+   </select>
+   <!-- 영화출력 페이징 쿼리문 -->
+   <select id="movPageCnt" resultType="int">select count(*) from PJMOVIE</select>
+   <!-- 영화 상세보기 쿼리문 -->
+   <select id="movDetail" resultMap="mgMov">select * from PJMOVIE where movie_code=#{param1}</select>
+   <!-- 영화 삭제 쿼리문 -->
+   <delete id="movDel">delete PJMOVIE where movie_code=#{param1}</delete>
+   <!-- 영화 업뎃 쿼리문 -->
+   <update id="movUpdate">
+      update PJMOVIE set movie_name=#{param1}, movie_poster=#{param2}, movie_director=#{param3}, movie_actor=#{param4}
+      , movie_rday=#{param5}, movie_rtime=#{param6}, movie_jenre=#{param7}, movie_keyword=#{param8}
+      , movie_plot=#{param9}, movie_group=#{param10}, movie_link=#{param11}, movie_reserve=#{param12} where movie_code=#{param13}
+   </update>
+   <!-- 감독 중복검사 쿼리문 -->
+   <select id="dirCheck" resultType="int">
+      select count(*) from PJDIR where DIR_NAME=#{param1} and DIR_BIRTH=#{param2}
+   </select>
+   <!-- 감독 등록 쿼리문 -->
+   <insert id="dirin">
+      insert into
+        PJDIR(dir_code, dir_name, dir_birth, dir_aff, dir_debut, dir_info, dir_pic)
+         values(DIR_CODE_SEQ.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},#{param6})
+   </insert>
+   <!-- 감독 출력 쿼리문 -->
+   <select id="dirout" resultMap="mgDir">
+      select * from (select rownum rr,A. * from(select * from PJDIR)A) where rr between #{start} AND #{end}
+   </select>
+   <!-- 감독 상세보기 쿼리문 -->
+   <select id="dirDetail" resultMap="mgDir">select * from PJDIR where dir_code=#{param1}</select>
+   <!-- 감독 삭제 쿼리문 -->
+   <delete id="dirDel">delete PJDIR where dir_code=#{param1}</delete>
+   <!-- 감독 업뎃 쿼리문 -->
+   <update id="dirUp">
+      update PJDIR set dir_name=#{param1}, dir_birth=#{param2}, dir_aff=#{param3}, dir_debut=#{param4}
+      , dir_info=#{param5}, dir_pic=#{param6} where dir_code=#{param7}
+   </update>
+   <!-- 감독(수정) 중복검사 시 기존 그대로인지 확인 -->
+   <select id="dirMe" resultType="int">select count(*) from PJDIR where dir_code=#{param1}</select>
+   <!-- 감독(수정) 중복검사 시 '나' 빼고 쿼리문 -->
+   <select id="dirChck" resultType="int">
+      select count(*) from PJDIR where DIR_NAME=#{param1} and DIR_BIRTH=#{param2} and dir_code !=#{param3}
+   </select>
+   <!-- 영화(수정) 중복검사 시 기존 그대로인지 확인 -->
+   <select id="mvChkMe" resultType="int">select count(*) from PJMOVIE where movie_code=#{param1}</select>
+   <!-- 영화(수정) 중복검사 시 '나' 빼고 쿼리문 -->
+   <select id="mvMcheck" resultType="int">
+      select count(*) from PJMOVIE where movie_name=#{param1} and movie_director=#{param2} and movie_code !=#{param3}
+   </select>
+   <!-- 전체 레코드 수 -->
+   <select id="cntnotice" resultType="int">
+    select count(*)from pjmember
+   </select>
+   
+   <!-- 게시글 조회  -->
+   <select id="selectnotice" resultType="com.ezen.tmi.member.MemberDTO">
+      select * from (
+      select rownum rn,A.* from(  
+      select * from pjmember order by user_num desc)A)
+      where rn between #{start} AND #{end}
+   </select>
+   
+   <delete id="memdelete">
+   delete from pjmember where user_id = #{param1}
+   </delete>
+   
+   <select id="memdelck" resultType="String">
+   select user_id from pjmember where user_id = #{param1}
+   </select>
+   
+   <!-- 전체 문의글 수 -->
+   <select id="cntboard" resultType="int">
+    select count(*)from pjboard
+   </select>
+   
+   <!-- 전체 문의글 조회  -->
+   <select id="selectboard" resultType="com.ezen.tmi.member.MemberBoardDTO">
+      select * from (
+      select rownum rn,A.* from(  
+      select * from pjboard order by bo_num desc)A)
+      where rn between #{start} AND #{end}
+   </select>
+   
+   <!-- 문의글 자세히 보기 -->
+   <select id="boarddetail" resultType="com.ezen.tmi.member.MemberBoardDTO">
+   select bo_num,bo_type,bo_title,bo_id,to_char(bo_day,'yyyy-MM-dd')bo_day,
+         bo_content, bo_img
+   from pjboard
+   where bo_num = #{param1} 
+   </select>
+	
+	<!-- 문의글 댓글 남기기 -->
+	<insert id="replyinsert">
+	insert into PJREPLY(re_num, bo_num, re_content)
+	  values (reply_seq.nextval,#{param1},#{param2})
+	</insert>
+	
+	<!-- 댓글 불러오기 -->
+	<select id="replyout" resultType="com.ezen.tmi.manager.ReplyDTO">
+	select * from PJREPLY where bo_num = #{param1}
+	</select>
+	
+	<!-- 댓글 수 증가 -->
+	<update id="oxcnt">
+	update pjboard set bo_ox = bo_ox+1 where bo_num = #{param1}
+	</update>
+</mapper>

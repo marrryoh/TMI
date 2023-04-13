@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.tmi.movie.MvService">
+	<!-- 검색 된 모든 정보 수-->
+	<select id="getTotal" resultType="Integer">
+		select count(*) from pjmovie
+		where movie_name like '%' || #{param1} || '%'
+		or movie_director like '%' || #{param1} || '%'
+		or movie_jenre like '%' || #{param1} || '%'
+		or movie_keyword like '%' || #{param1} || '%'
+		or movie_plot like '%' || #{param1} || '%'
+	</select>
+	
+	<!-- 검색 된 모든 정보 -->
+	<select id="pagePerList" resultType="com.ezen.tmi.manager.MgMovie_DTO">
+		select *from(select rownum rn, T.*from(select * from pjmovie
+		where movie_name like '%' || #{param1} || '%'
+		or movie_director like '%' || #{param1} || '%'
+		or movie_jenre like '%' || #{param1} || '%'
+		or movie_keyword like '%' || #{param1} || '%'
+		or movie_plot like '%' || #{param1} || '%' 
+		order by movie_code desc) T)
+	</select>
+	
+	<!-- 검색어 저장, 검색 획수 누적 -->
+	<update id="searchcnt">
+    	MERGE INTO pjsearch p
+    	USING (SELECT #{param1} SEARCH_VALUE, 1 SEARCH_CNT FROM DUAL) s
+    	ON (p.SEARCH_VALUE = s.SEARCH_VALUE)
+    	WHEN MATCHED THEN
+        UPDATE SET p.SEARCH_CNT = p.SEARCH_CNT + s.SEARCH_CNT
+    	WHEN NOT MATCHED THEN
+        INSERT (SEARCH_VALUE, SEARCH_CNT)
+        VALUES (s.SEARCH_VALUE, s.SEARCH_CNT)
+	</update>
+	
+	<!-- 검색어 순위 출력 -->
+	<select id="sresult" resultType="com.ezen.tmi.movie.SearchDTO">
+		select * from pjsearch order by SEARCH_CNT DESC
+	</select>
+</mapper>

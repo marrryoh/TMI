@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+   <definition name="baseLayout" template="/WEB-INF/views/layoutA.jsp">
+      <put-attribute name="title" value=""/>   
+      <put-attribute name="body" value=""/>
+      <put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
+   </definition>
+   
+   <definition name="baseLayoutB" template="/WEB-INF/views/layoutB.jsp">
+      <put-attribute name="title" value=""/>
+      <put-attribute name="top" value="/WEB-INF/views/searchTop.jsp"/>
+      <put-attribute name="body" value=""/>
+      <put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
+   </definition>
+   
+   <definition name="baseLayoutC" template="/WEB-INF/views/layoutC.jsp">
+      <put-attribute name="title" value=""/>
+      <put-attribute name="manager_Header" value="/WEB-INF/views/manager/manager_Header.jsp"/>
+      <put-attribute name="body" value=""/>
+      <put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
+   </definition>
+   
+   <definition name="baseLayoutD" template="/WEB-INF/views/layoutD.jsp">
+      <put-attribute name="title" value=""/>
+      <put-attribute name="nav" value=""/>
+   </definition>
+   
+    <!-- home -->
+   <definition name="home" extends="baseLayout">
+      <put-attribute name="title" value="[Today's MovIe] TMI 나의 인생영화를 찾아서"/>
+      <put-attribute name="body" value="/WEB-INF/views/home.jsp"/>
+   </definition>
+	
+	<definition name="member_Input" extends="baseLayout">
+      <put-attribute name="title" value="회원가입"/>
+      <put-attribute name="body" value="/WEB-INF/views/member/member_Input.jsp"/>
+   </definition>
+   
+   <definition name="member_Output" extends="baseLayoutC">
+      <put-attribute name="title" value="회원정보출력"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/member_Output.jsp"/>
+   </definition>
+   
+   <definition name="member_Login" extends="baseLayout">
+      <put-attribute name="title" value="로그인"/>
+      <put-attribute name="body" value="/WEB-INF/views/member/member_Login.jsp"/>
+   </definition>
+   
+   <definition name="member_Info" extends="baseLayoutB">
+      <put-attribute name="title" value="회원정보"/>
+      <put-attribute name="body" value="/WEB-INF/views/member/member_Info.jsp"/>
+   </definition>
+   
+   <definition name="member_Modify1" extends="baseLayoutB">
+      <put-attribute name="title" value="내정보수정"/>
+      <put-attribute name="body" value="/WEB-INF/views/member/member_Modify1.jsp"/>
+   </definition>
+   
+   <definition name="member_Modify_Success" extends="baseLayout">
+      <put-attribute name="title" value="수정성공"/>
+      <put-attribute name="body" value="/WEB-INF/views/member/member_Modify_Success.jsp"/>
+   </definition>
+   
+   <definition name="member_LoginFail" extends="baseLayoutB">
+      <put-attribute name="title" value="로그인실패"/>
+      <put-attribute name="body" value="/WEB-INF/views/member/member_LoginFail.jsp"/>
+   </definition>
+   
+    <definition name="member_MyQnA" extends="baseLayoutB">
+      <put-attribute name="title" value="문의작성"/>
+      <put-attribute name="body" value="/WEB-INF/views/member/member_MyQnA.jsp"/>
+   </definition>
+   
+    <definition name="member_MyQnA_Out" extends="baseLayoutB">
+      <put-attribute name="title" value="내글보기"/>
+      <put-attribute name="body" value="/WEB-INF/views/member/member_MyQnA_Out.jsp"/>
+   </definition>
+   
+    <definition name="manager_QnA_Out" extends="baseLayoutC">
+      <put-attribute name="title" value="회원정보출력"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/manager_QnA_Out.jsp"/>
+   </definition>
+   
+   <definition name="member_boardDetail" extends="baseLayoutB">
+      <put-attribute name="title" value="게시글 상세보기"/>
+      <put-attribute name="body" value="/WEB-INF/views/member/member_boardDetail.jsp"/>
+   </definition>
+   <!-- 매니저 게시물 자세히보기 -->
+   <definition name="manager_boardDetail" extends="baseLayoutC">
+      <put-attribute name="title" value="게시글상세"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/manager_boardDetail.jsp"/>
+   </definition>
+    <!-- [2.관리] -->
+    
+   <!-- [2]메인페이지 -->
+   <definition name="manager_Mainpage" extends="baseLayoutC">
+      <put-attribute name="title" value="[관리자]메인"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/manager_Mainpage.jsp"/>
+   </definition>
+   <!-- [2]헤더페이지 -->
+   <definition name="manager_Header" extends="baseLayout">
+      <put-attribute name="title" value="[관리자]헤더페이지"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/manager_Header.jsp"/>
+   </definition>
+   
+   <!-- [2]영화등록 -->
+   <definition name="movie_Input" extends="baseLayoutC">
+      <put-attribute name="title" value="[관리자]영화등록"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/movie_Input.jsp"/>
+   </definition>
+   
+   <!-- [2]관리자로접속 -->
+   <definition name="manager_Login" extends="baseLayout">
+      <put-attribute name="title" value="[관리자]관리자권한으로 접속"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/manager_Login.jsp"/>
+   </definition>
+   
+   <!-- [2]영화출력 -->
+   <definition name="movie_Output" extends="baseLayoutC">
+      <put-attribute name="title" value="[관리자]영화관리"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/movie_Output.jsp"/>
+   </definition>
+	
+	 <!-- [2]영화 상세보기 -->
+   <definition name="manager_MovDetails" extends="baseLayoutC">
+      <put-attribute name="title" value="[관리자]영화상세보기"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/manager_MovDetails.jsp"/>
+   </definition>
+   
+   <!-- [2]영화수정하기 -->
+   <definition name="movie_Modify" extends="baseLayoutC">
+      <put-attribute name="title" value="[관리자]영화 수정/삭제"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/movie_Modify.jsp"/>
+   </definition>
+   
+   <!-- [2]감독등록 -->
+   <definition name="movieDir_Input" extends="baseLayoutC">
+      <put-attribute name="title" value="[관리자]감독등록"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/movieDir_Input.jsp"/>
+   </definition>
+   
+   <!-- [2]감독 출력 -->
+   <definition name="movieDir_Output" extends="baseLayoutC">
+      <put-attribute name="title" value="[관리자]감독리스트"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/movieDir_Output.jsp"/>
+   </definition>
+   
+   <!-- [2]감독 수정/삭제 -->
+   <definition name="movieDir_Modi" extends="baseLayoutC">
+      <put-attribute name="title" value="[관리자]감독 수정/삭제"/>
+      <put-attribute name="body" value="/WEB-INF/views/manager/movieDir_Modi.jsp"/>
+   </definition>
+	
+	<!-- 메인 영화 출력 -->
+   <definition name="main_SearchOut" extends="baseLayoutB">
+      <put-attribute name="title" value="searchout"/>
+      <put-attribute name="body" value="/WEB-INF/views/movie/main_SearchOut.jsp"/>
+   </definition>
+   
+   <!-- 우측 네비바 -->
+   <definition name="main_Side" extends="baseLayoutD">
+      <put-attribute name="title" value="Side"/>
+      <put-attribute name="nav" value="/WEB-INF/views/movie/main_Side.jsp"/>
+   </definition>
+   
+</tiles-definitions>
