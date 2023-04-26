@@ -46,6 +46,12 @@ public class PageDTO {
 		setStart(getEnd() - cntPerPage + 1);
 		}
 		public int getNowPage() {
+			 if(nowPage<=0) {
+				 nowPage=1;
+		      }
+		      if(nowPage>getLastPage()) {
+		    	  nowPage=getLastPage();
+		      }
 			return nowPage;
 		}
 		public void setNowPage(int nowPage) {

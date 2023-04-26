@@ -155,13 +155,13 @@ public class MgMovie_DTO {
 			this.movie_pop = movie_pop;
 		}
 
-		@SuppressWarnings("unlikely-arg-type")
 		public String getMovie_new() {
-			LocalDate ld=LocalDate.now().minusMonths(1);
-			if(getMovie_rday().equals(ld)) {
-				movie_new="상영중";
-			}
-			return movie_new;
+			 LocalDate ld=LocalDate.now().minusMonths(1);
+	         LocalDate rday = LocalDate.parse(getMovie_rday().substring(0, 10));
+	         if (rday.isAfter(ld)) {
+	            movie_new="상영중";
+	         }
+	         return movie_new;
 		}
 		
 		public String getMovie_state() {

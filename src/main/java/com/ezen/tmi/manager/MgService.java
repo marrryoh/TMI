@@ -47,4 +47,7 @@ public interface MgService {
 	public ArrayList<ReplyDTO> replyout(int bo_num);
 	//¥Ò±€ ¡ı∞°
 	public int oxcnt(int bo_num);
+	public ArrayList<MgMovie_DTO> mvSearchJ(String jenre, int a, int b);
+	public ArrayList<MgMovie_DTO> mvSearchS(int a, int start, int end);
+    public ArrayList<MgMovie_DTO> dirSearch(String dir, int a, int b);
 }

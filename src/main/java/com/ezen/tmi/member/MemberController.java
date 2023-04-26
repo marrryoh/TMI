@@ -19,14 +19,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ezen.tmi.manager.MgMovie_DTO;
 import com.ezen.tmi.manager.ReplyDTO;
+import com.ezen.tmi.movie.MvService;
 
 //회원가입
 @Controller
 public class MemberController {
 	
-	public	static	String CURR_IMAGE_REPO_PATH="C:\\Users\\3-2\\git\\TMI_project_Git\\TMI\\src\\main\\webapp\\imgsave\\QnAImg";
-	
+	public	static	String CURR_IMAGE_REPO_PATH="C:\\Users\\3-2\\git\\repository\\TMI\\src\\main\\webapp\\imgsave\\QnAImg";
+
 	@Autowired
 	SqlSession sqlSession;
 	
@@ -122,9 +124,10 @@ public class MemberController {
 	
 	//로그인
 	@RequestMapping(value = "/member_Login")
-	public String member5()
-	{	
-		return "member_Login";
+	 public String member5(HttpServletRequest request, HttpSession hs){
+	      String beforUri = request.getHeader("Referer");
+	      hs.setAttribute("prevPage", beforUri);
+	      return "member_Login";
 	}
 	
 	//로그인 정보 체크
@@ -161,25 +164,31 @@ public class MemberController {
 		@RequestMapping(value = "/member_Login_Save", method = RequestMethod.POST)
 		public String member6(HttpServletRequest request,RedirectAttributes ra)
 		{
-			String login_id=request.getParameter("login_id");
-			String login_pw=request.getParameter("login_pw");
-			MemService ms = sqlSession.getMapper(MemService.class);
-			MemberDTO dto = ms.member_Login(login_id,login_pw);
-			
-			if(dto!=null)
-			{
-				HttpSession hs = request.getSession();
-				hs.setAttribute("member", dto);
-				hs.setAttribute("login_id", dto.getUser_id());
-				hs.setAttribute("memberloginOrNot", true);
-				hs.setMaxInactiveInterval(300); //5분 후 로그아웃
-				return "redirect:home";
-			}
-			else
-			{			
-				ra.addAttribute("memLogin", "loginfail");
-				return "member_Login";
-			}
+			  HttpSession hs = request.getSession();
+		      String login_id=request.getParameter("login_id");
+		      String login_pw=request.getParameter("login_pw");
+		      MemService ms = sqlSession.getMapper(MemService.class);
+		      MemberDTO dto = ms.member_Login(login_id,login_pw);
+		      String prevPage = (String) hs.getAttribute("prevPage");
+		      if(dto!=null)
+		      {
+		         
+		         hs.setAttribute("member", dto);
+		         hs.setAttribute("login_id", dto.getUser_id());
+		         hs.setAttribute("memberloginOrNot", true);
+		         hs.setMaxInactiveInterval(300); //5분 후 로그아웃
+		         if (prevPage != null) {
+		            return "redirect:" + prevPage;
+		         } else {
+		            return "redirect:home";
+		         }
+		      }
+		      else
+		      {         
+		         ra.addAttribute("memLogin", "loginfail");
+		         return "member_Login";
+		      }
+
 		}
 	//회원 정보만 불러오기
 		@RequestMapping(value = "/member_Info")
@@ -226,7 +235,7 @@ public class MemberController {
 	}
 	
 	
-	//로그아웃
+	//로그아웃 시 이전 페이지로
 	@RequestMapping(value ="/logout" )
 	public String member8(HttpServletRequest request) {
 		HttpSession hs = request.getSession();
@@ -278,7 +287,7 @@ public class MemberController {
 		mf.transferTo(new File(CURR_IMAGE_REPO_PATH+"\\"+fname));
 			
 		ms.QnAinsert(bo_id,bo_type,bo_title,bo_content,fname);
-		return "redirect:home";
+		return "redirect:member_MyQnA_Out";
 	}
 	
 	//내 문의글 출력
@@ -306,7 +315,106 @@ public class MemberController {
 		 mo.addAttribute("reply",reply);
 		return "member_boardDetail";
 	}
-	
+	  @RequestMapping(value="/member_StarRating")
+	   public String member_StarRating(HttpSession hs,HttpServletRequest request,Model m) {
+	      String login_id = (String) hs.getAttribute("login_id");
+	      Boolean loginOrNot = (Boolean) hs.getAttribute("memberloginOrNot");
+
+	      //로그인 여부에 따른 세션값
+	      if(login_id!= null && loginOrNot == true){
+	         hs.setAttribute("memberloginOrNot", true);
+	            hs.setAttribute("manager_id", "");
+	            hs.setAttribute("administrator_only", false);
+	            hs.setAttribute("login_id", login_id);
+	            hs.setMaxInactiveInterval(1200); //20분 후 로그아웃
+	            MvService srv=sqlSession.getMapper(MvService.class);
+	            int mvCode=Integer.parseInt(request.getParameter("a"));
+	            MgMovie_DTO movie=srv.mvDetail(mvCode);
+	            m.addAttribute("mvName", movie.getMovie_name());
+	            m.addAttribute("mvCode", mvCode);
+	            return "member_StarRating";
+	      }else {
+	         hs.setAttribute("memberloginOrNot", false);
+	            hs.setAttribute("manager_id", "");
+	            hs.setAttribute("administrator_only", false);
+	            hs.setAttribute("login_id", "");
+	         return "redirect:member_Login";
+	      }//로그인 여부
+	   }//별점 팝업창
+	   
+	   @ResponseBody
+	   @RequestMapping(value = "/memStarSave", method = RequestMethod.POST)
+	   public String memStarSave(HttpServletRequest request,HttpSession hs) {
+	      int star=Integer.parseInt(request.getParameter("rating"));
+	      String text=request.getParameter("starText");
+	      int movie=Integer.parseInt(request.getParameter("mvCode"));
+	      
+	      String id=(String)hs.getAttribute("login_id");      
+	      MemService msrv=sqlSession.getMapper(MemService.class);
+	      msrv.starin(movie,id,star,text);
+	      return "response";
+	   }//별점 등록
+	   
+	   @ResponseBody
+	   @RequestMapping(value="/mvJimm")
+	   public String mvJimm(HttpServletRequest request,HttpSession hs) {
+	      String myid=(String)hs.getAttribute("login_id");//아이디
+	      int mv=Integer.parseInt(request.getParameter("aa"));//영화코드
+	      MemService msrv=sqlSession.getMapper(MemService.class);
+	      int check=msrv.mJimCheck(myid,mv);
+	      String jjim="no";
+	      if(check==1) {
+	         jjim="no";
+	      }else if(check==0) {
+	         jjim="yes";
+	         msrv.mvJimm(myid,mv);
+	      }else {
+	         jjim="err";
+	      }
+	      return jjim;
+	   }//찜하기
+	   
+	   @ResponseBody
+	   @RequestMapping(value="/mvJimm_Delete")
+	   public String mvJimm_Delete(HttpServletRequest request,HttpSession hs) {
+	      String myid=(String)hs.getAttribute("login_id");//아이디
+	      int mv=Integer.parseInt(request.getParameter("aa"));//영화코드
+	      MemService msrv=sqlSession.getMapper(MemService.class);
+	      int check=msrv.mJimCheck(myid,mv);
+	      String bye="no";
+	      if(check==1) {
+	         msrv.mvJimmDel(myid,mv);
+	         bye="yes";
+	      }else {
+	         bye="err";
+	      }
+	      return bye;
+	   }//찜 취소하기
+	   
+	   @RequestMapping(value="/member_Jimm")
+	   public String member_Jimm(HttpServletRequest request,HttpSession hs,Model m) {
+	      String login_id = (String) hs.getAttribute("login_id");
+	      Boolean loginOrNot = (Boolean) hs.getAttribute("memberloginOrNot");
+
+	      //로그인 여부에 따른 세션값
+	      if(login_id!= null && loginOrNot == true){
+	         hs.setAttribute("memberloginOrNot", true);
+	            hs.setAttribute("manager_id", "");
+	            hs.setAttribute("administrator_only", false);
+	            hs.setAttribute("login_id", login_id);
+	            hs.setMaxInactiveInterval(1200); //20분 후 로그아웃
+	            MemService srv=sqlSession.getMapper(MemService.class);
+	            ArrayList<JimDTO> jjim=srv.memberJjim(login_id);
+	            m.addAttribute("jim", jjim);
+	            return "member_Jimm";
+	      }else {
+	         hs.setAttribute("memberloginOrNot", false);
+	            hs.setAttribute("manager_id", "");
+	            hs.setAttribute("administrator_only", false);
+	            hs.setAttribute("login_id", "");
+	         return "redirect:member_Login";
+	      }//로그인 여부
+	   }//찜목록 보기
 }
 
 

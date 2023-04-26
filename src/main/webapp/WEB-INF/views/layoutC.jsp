@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script type="text/javascript">
@@ -161,6 +160,7 @@
             width: 100%;
             display: flex;
             align-self: center;
+            margin-top: 20px;
          }
          div.mgMain_title1{
             flex-direction: row;
@@ -170,6 +170,10 @@
             margin-top: 50px;
             margin-right:20px;
             opacity: 0.8;
+            display: flex;
+            justify-content: space-between;
+    		flex-direction: column;
+   			align-items: center;
          }
          div.mgMain_title1:hover{
             opacity: 1.0;
@@ -182,6 +186,10 @@
             margin-top: 50px;
             margin-right:10px; 
             opacity: 0.8;
+            display: flex;
+            justify-content: space-between;
+    		flex-direction: column;
+   			align-items: center;
          }
          div.mgMain_title2:hover{
             opacity: 1.0;
@@ -194,13 +202,16 @@
             margin-top: 50px;
             margin-right:30px; 
             opacity: 0.8;
+            display: flex;
+            justify-content: space-between;
+    		flex-direction: column;
+   			align-items: center;
          }
          div.mgMain_title3:hover{
             opacity: 1.0;
          }
          div.mgTitle_img{
             flex-direction: column;
-            width: 100%;
             
          }
          span.mgTitle{
@@ -208,51 +219,57 @@
             font-family: hanna;
          }
          div.mgTitle_img img{
-            width: 100%;
             border-radius: 8px;
          }
          
       
-         /* 영화관리 */
+        /* 영화관리 */
          div.movOut_area{
             margin-top: 10px;
             margin-left: 20px;
             margin-right: 20px;
             margin-bottom: 10px;
-            padding-top: 3%;
-            padding-bottom: 4%;
-            padding-left: 5%;
-            padding-right: 5%;
-            border-radius: 10;
-            background-color: rgba(200,200,200,0.6);
-         }
-         div.movOut_area table{
-            border: 1px solid #ddd;
-            background-color: #DCE4E3;
-         }
-         
-         div.movOut_area table tr:hover{
-            background-color: rgba(242,242,242,0.7);
-         }
-         div.movOut_area table th{
-            text-align: center;
-            align-content: center;
-            align-items: center;
-            align-self: center;
-            padding-bottom: 4px;
+            border-radius: 20px;
+            padding: 10px;
+            background-color: rgba(214, 206, 192,0.1);
+            box-shadow: rgba(214, 206, 192,0.2) 0px 0px 1px 1px;
+         }div.movOut_area table{
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid #F7F5F6;
+            margin: auto;
+            font-size: 12px;
+         }div.movOut_area table th{
             border: none;
             position: relative;
-            font-size: 15px;
+            font-size: 1.2em;
             padding: 5px;
-         }
-         div.movOut_area table td{
+            background-color: #29292A;
+            font-weight: bold;
+            color:#F7F5F6;
+         }div.movOut_area table td{
             border: none;
             font-family: 돋움;
-            padding: 3px;
-            padding-left: 6px;
-            padding-right: 6px;
-            margin-left: 2px;
-            margin-right: 2px;
+            font-size: 1em;
+            font-weight: 500;
+            padding: 3px 10px 3px 10px;
+            margin: 1px 2px 1px 2px;
+            color: #344443;
+         }div.movOut_area a{
+            color: #344443;
+         }
+         div.movOut_area table.count-1 tr:nth-child(even) {
+            background-color: #f7f5f6;
+         }div.movOut_area table.count-1 tr:nth-child(odd) {
+            background-color: #f7f5f6;
+         }div.movOut_area table.count-1 tr:hover{
+            background-color: rgba(214,206,192,0.7);
+         }div.movOut_area .count-1 td:hover{
+            background-color: #D6CEC0;
+         }.count-1 td#mvName{
+            font-size: 1.1em;
+         }.count-1 td#mvNew{
+            color:#FFA500;
          }
          
          
@@ -296,7 +313,6 @@
             margin: 10px;
          }
          h2#movie-info-title{
-            font-family: 궁서;
             display: block;
             align-items: center;
             text-align: center;
@@ -316,7 +332,8 @@
             font-weight: 200;
             padding-bottom: 5px;
             display: flex;
-            flex-direction: row;            
+            flex-direction: row;
+            align-items: center;            
          }
          div.movie-info-text{
             align-items: center;
@@ -331,6 +348,7 @@
             font-size: 15px;
          }
          ul.movie-text-ul{
+         	display: flex;
             height: 60px;
             flex-direction: row;
          }  
@@ -541,7 +559,7 @@
     }
     #QnA_Area_top
     {
-    	margin-bottom: 60px;
+    	margin-bottom: 30px;
     }
      #QnA_Area_Re
     {
@@ -553,6 +571,20 @@
     	margin: 10px;
     	padding: 5px;    	
     }
+    #QnA_Reply_area
+    {
+    	margin: 10px;
+    	padding: 5px;
+    	display: flex;
+    	flex-direction: column;
+    	align-items: center;
+    	    	
+    }
+    #QnA_Reply_btn
+    {
+    	display: flex;
+    	margin-top: 20px;
+    }
     #QnA_spanArea
     {
    		display: flex;
@@ -563,7 +595,7 @@
     #QnA_spanArea_ty
     {
    		display: flex;
-        width : 270px;
+        width : 400px;
         height: 30px;
         padding : 5px 5px 5px 5px;
     }
@@ -574,6 +606,7 @@
         padding : 5px 5px 5px 5px;
         font-size: 13px;
     }
+    
     #QnA_Area_cont
     {
     	width : 900px;
@@ -604,6 +637,8 @@
     {
     	margin: 50px 5px 30px 5px;
     	padding: 5px; 
+    	display: flex;
+    	flex-direction: column;
     }
     #QnA_Area_tt
     {

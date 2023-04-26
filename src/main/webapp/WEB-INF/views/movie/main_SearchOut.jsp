@@ -11,7 +11,6 @@
 		<title></title>
 	</head>
 	<body>
-	
   <div class="mainBody"><div class="mainBodyTop">'${svalue}' 의 검색 결과 ${totcnt}건</div>
 	
 	<c:forEach items="${list}" var="o">
@@ -53,9 +52,7 @@
 	</div>	
 	
 		</c:forEach>
-</div>	
-<div style="margin-bottom: 100px;"></div>
-							
+</div>						
 	</body>
 	 <%
       // /mainSearchRank 컨트롤러를 호출하는 코드 작성

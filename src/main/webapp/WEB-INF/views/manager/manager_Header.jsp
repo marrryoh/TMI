@@ -68,13 +68,7 @@
        				    <li><a href="manager_QnA_Out">게시판 관리</a></li>
                      </ul><!-- 메뉴 하단 메뉴 -->
                   </li><!-- 토글 li -->
-                  <li class="dd"><a class="dd_toggleArea" data-toggle="dd" href="#">배우(미정)<span class="dd_Button"></span></a><!-- 메뉴상단바 -->
-                     <ul class="dd_Menu">
-                        <li><a href="#">배우추가</a></li>
-                        <li><a href="#">배우관리</a></li>
-                     </ul><!-- 메뉴 하단 메뉴 -->
-                  </li><!-- 토글 li -->
-                  <li><a href="#">(비어있음)</a></li>
+                 
                </ul><!-- 드롭다운 기능 ul -->
             </div><!-- 좌측 영역 -->
             <div class="rightNav">

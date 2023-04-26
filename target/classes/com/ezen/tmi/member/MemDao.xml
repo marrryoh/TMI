@@ -5,6 +5,14 @@
 
 <mapper namespace="com.ezen.tmi.member.MemService">
 	
+	 <resultMap id="like" type="com.ezen.tmi.member.JimDTO">
+      <result column="like_id" property="like_id"/>
+      <result column="like_code" property="like_code"/>
+      <result column="movie_name" property="movie_name"/>
+      <result column="movie_poster" property="movie_poster"/>
+      <result column="movie_jenre" property="movie_jenre"/>
+   </resultMap>
+	
 	<!-- 회원정보 저장 -->
 	<insert id="memberinsert">
 	insert into pjmember(user_num, user_id, user_pw, user_nic,
@@ -86,6 +94,42 @@
    from pjboard
    where bo_num = #{param1} 
    </select>
+   
+   <!-- 별점 등록 -->
+   <insert id="starin">
+      insert into PJMVREPLY(MR_NUM,MOVIE_CODE,MR_ID,MR_STAR,MR_CONTENT)
+       values(MR_NUM_SEQ.nextval,#{param1},#{param2},#{param3},#{param4})
+   </insert>
+   <!-- 찜하기 -->
+   <insert id="mvJimm">
+      insert into PJLIKE(LIKE_ID,LIKE_CODE) values(#{param1},#{param2})
+   </insert>
+   <select id="mJimCheck" resultType="int">
+      select count(*) from PJLIKE where LIKE_ID=#{param1} and LIKE_CODE=#{param2}
+   </select>
+   <!-- 찜제거 -->
+   <delete id="mvJimmDel">
+      delete from PJLIKE where LIKE_ID=#{param1} and LIKE_CODE=#{param2}
+   </delete>
+   <!-- 찜목록 -->
+   <select id="memberJjim" resultMap="like">
+      SELECT l.LIKE_ID, l.LIKE_CODE, m.movie_name, m.movie_poster,m.movie_jenre
+       FROM pjlike l INNER JOIN pjmovie m ON l.LIKE_CODE = m.movie_code
+       WHERE l.LIKE_ID = #{param1}
+   </select>
+   <!-- 평점 추천 여부 -->
+   <select id="countlike" resultType="int">
+      select count(*) from PJJOAYO where joa_num=#{param1} and joa_id=#{param2}
+   </select>
+   <!-- 평점 추천하기 -->
+   <insert id="ilikeit">
+      insert into PJJOAYO(joa_num,joa_id) values(#{param1},#{param2})
+   </insert>
+   <!-- 좋아요 +1 -->
+   <update id="joayoUP">
+      update PJMVREPLY set mr_like=mr_like+1 where MR_NUM=#{param1}
+   </update>
+   
 </mapper>
 
 

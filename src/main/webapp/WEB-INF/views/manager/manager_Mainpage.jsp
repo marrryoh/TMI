@@ -17,28 +17,28 @@
 						<span class="mgTitle">영화관리</span>
 					</a>
 					<div class="mgTitle_img">
-						<a href="movie_Output">
-							<img id="mgMain_img" src="image/project_img_saveBox/ezgif.com-gif-maker.gif">
+						<a href="movie_Input">
+							<img id="mgMain_img" src="imgsave/logoImg/영화관리.jpg" width="300">
 						</a>
 					</div>
 				</div> 
 				<div class="mgMain_title2">
-					<a href="movie_Input">
+					<a href="member_Output">
 						<span class="mgTitle">회원관리</span>
 					</a>
 					<div class="mgTitle_img">
-						<a href="movie_Input">
-							<img id="mgMain_img" src="image/project_img_saveBox/ezgif.com-gif-maker_member.gif">
+						<a href="member_Output">
+							<img id="mgMain_img" src="imgsave/logoImg/팝콘.jpg" width="300">
 						</a>
 					</div>
 				</div>
 				<div class="mgMain_title3">
-					<a href="movie_Input">
+					<a href="manager_QnA_Out">
 						<span class="mgTitle">문의확인</span>
 					</a>
 					<div class="mgTitle_img">
-						<a href="movie_Input">
-							<img id="mgMain_img" src="image/project_img_saveBox/ezgif.com-gif-maker_a.gif">
+						<a href="manager_QnA_Out">
+							<img id="mgMain_img" src="imgsave/logoImg/QnA.jpg" width="450">
 						</a>
 					</div>
 				</div> 

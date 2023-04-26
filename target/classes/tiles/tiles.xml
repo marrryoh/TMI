@@ -154,6 +154,13 @@
       <put-attribute name="body" value="/WEB-INF/views/manager/movieDir_Modi.jsp"/>
    </definition>
 	
+	<!-- [3.메인] -->
+	<!-- 디테일 -->
+	<definition name="main_MovDetails" extends="baseLayoutB">
+	<put-attribute name="title" value="영화상세보기"/>
+	<put-attribute name="body" value="/WEB-INF/views/movie/main_MovDetails.jsp"/>
+	</definition>
+	
 	<!-- 메인 영화 출력 -->
    <definition name="main_SearchOut" extends="baseLayoutB">
       <put-attribute name="title" value="searchout"/>
@@ -165,5 +172,19 @@
       <put-attribute name="title" value="Side"/>
       <put-attribute name="nav" value="/WEB-INF/views/movie/main_Side.jsp"/>
    </definition>
-   
+   <!-- [1]찜목록 -->
+	<definition name="member_Jimm" extends="baseLayoutB">
+		<put-attribute name="title" value="[찜]나의 인생영화"/>
+		<put-attribute name="body" value="/WEB-INF/views/member/member_Jimm.jsp"/>
+	</definition>
+    
+    <!-- 평점(추천순) -->
+	<definition template="/WEB-INF/views/movie/main_StarRatOUT_like.jsp" name="main_StarRatOUT_like"/>
+    <!-- 평점(내평점) -->
+	<definition template="/WEB-INF/views/movie/main_StarRatOUT_me.jsp" name="main_StarRatOUT_me"/>
+	<!-- 평점(최신순) -->
+	<definition template="/WEB-INF/views/movie/main_StarRatOUT_new.jsp" name="main_StarRatOUT_new"/>
+	<!-- 평점 남기기 -->
+	<definition template="/WEB-INF/views/member/member_StarRating.jsp" name="member_StarRating"/>
+
 </tiles-definitions>

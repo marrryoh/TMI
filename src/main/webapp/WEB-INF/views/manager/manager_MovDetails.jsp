@@ -26,15 +26,15 @@
 						<div class="text-banner">
 							<div class="movie-text-banner-bottom">
 								<ul>
-									<li>국가:<p class="movie-detail-txt">${mto.movie_state}</p></li>
+									<li>국가 : <p class="movie-detail-txt">${mto.movie_state}</p></li>
 									<li>
-										감독:<p class="movie-detail-txt"><a href="#">${mto.movie_director}</a></p>
+										감독 : <p class="movie-detail-txt"><a href="#">${mto.movie_director}</a></p>
 									</li>
-									<li>배우:<p class="movie-detail-txt">${mto.movie_actor}</p></li>
-									<li>장르:<p class="movie-detail-txt">${mto.movie_jenre}</p></li>
-									<li>개봉일:<p class="movie-detail-txt">${mto.movie_day}</p></li>
-									<li>러닝타임:<p class="movie-detail-txt">${mto.movie_rtime}분</p></li>
-									<li>키워드:<p class="movie-detail-txt">${mto.movie_keyword}</p></li>
+									<li>배우 : <p class="movie-detail-txt">${mto.movie_actor}</p></li>
+									<li>장르 : <p class="movie-detail-txt">${mto.movie_jenre}</p></li>
+									<li>개봉일 : <p class="movie-detail-txt">${mto.movie_day}</p></li>
+									<li>러닝타임 : <p class="movie-detail-txt">${mto.movie_rtime}분</p></li>
+									<li>키워드 : <p class="movie-detail-txt">${mto.movie_keyword}</p></li>
 								</ul>
 							</div>
 						</div>
@@ -51,7 +51,7 @@
 										</a>				
 									</li>
 								</ul>
-							</div>
+						</div>
 					</div>
 				</div>
 				<hr>

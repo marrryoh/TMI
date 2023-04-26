@@ -10,37 +10,37 @@
 		<title></title>
 	</head>
 	<body>
-		<div class="mainBody_area">
-			<div class="movOut_area" style="text-align: center;">
-				<table class="count-1" border="1" align="center">
-					<tr>
-						<th></th><!-- 순번 -->
-						<th>관리번호</th>
-						<th></th><!-- 상영중 -->
-						<th>국가</th>
-						<th colspan="2">영화제목</th>
-						<th>감독</th>
-						<th>배우</th>
-						<th>개봉일</th>
-						<th>상영시간</th>
-						<th>장르</th>
-						<th>삭제</th>
-					</tr>
-					<c:forEach items="${out}" var="o">
-						<tr>
-							<td></td><!-- 순번 -->
-							<td>${o.movie_code}</td>
-							<td>${o.movie_new}</td>
-							<td>${o.movie_state}</td>
-							<td><img src="imgsave/movieImg/${o.movie_poster}" height="100"></td>
-							<td>　<a href="manager_MovDetails?a=${o.movie_code}">${o.movie_name}</a>　</td>
-							<td>${o.movie_director}</td>
-							<td style="font-size: 11px;">${o.movie_actor}</td>
-							<td>${o.movie_day}</td>
-							<td>${o.movie_rtime}분</td>
-							<td>${o.movie_jenre}</td>
-							<td><a href="movie_Modi?a=${o.movie_code}">&#128502</a></td>
-						</tr>
+	<div id="wrap">
+		<div class="MGmainBody_area">
+         <div class="movOut_area" style="text-align: center;">
+            <table class="count-1" border="1" align="center">
+               <tr>
+                  <th></th><!-- 순번 -->
+                  <th>관리번호</th>
+                  <th></th><!-- 상영중 -->
+                  <th>국가</th>
+                  <th colspan="2">영화제목</th>
+                  <th>감독</th>
+                  <th>개봉일</th>
+                  <th>상영시간</th>
+                  <th>장르</th>
+                  <th>삭제</th>
+               </tr>
+               <c:forEach items="${out}" var="o">
+                  <tr>
+                     <td></td><!-- 순번 -->
+                     <td><a href="manager_MovDetails?a=${o.movie_code}">${o.movie_code}</a></td>
+                     <td id="mvNew"><a href="${o.movie_reserve}">${o.movie_new}</a></td>
+                     <td><a href="MgmvSearch?state=${o.movie_group}">${o.movie_state}</a></td>
+                     <td><a href="manager_MovDetails?a=${o.movie_code}"><img src="imgsave/movieImg/${o.movie_poster}" height="100"></a></td>
+                     <td id="mvName"><a href="manager_MovDetails?a=${o.movie_code}">${o.movie_name}</a></td>
+                     <td><a href="MgdirSearch?dir=${o.movie_director}">${o.movie_director}</a></td>
+                     <td>${o.movie_day}</td>
+                     <td>${o.movie_rtime}분</td>
+                     <td><a href="MgmvSearch?jenre=${o.movie_jenre}&state=0">${o.movie_jenre}</a></td>
+                     <td><a href="movie_Modi?a=${o.movie_code}">&#128502</a></td>
+                  </tr>
+
 					</c:forEach>
 					<tr style="border-left: none;border-right: none;border-bottom: none">
 						<td colspan="12" style="text-align: center;">
@@ -66,5 +66,6 @@
 				<br>
 		</div>
 		</div>
+	 </div>	
 	</body>
 </html>

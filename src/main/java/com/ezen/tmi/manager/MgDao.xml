@@ -150,4 +150,29 @@
 	<update id="oxcnt">
 	update pjboard set bo_ox = bo_ox+1 where bo_num = #{param1}
 	</update>
+	
+	<!-- 장르검색 -->
+   <select id="mvSearchJ" resultMap="mgMov">
+      select * from (
+         select rownum rr,A. * from(
+            select * from PJMOVIE where movie_jenre like '%' || #{param1} || '%'
+         )A
+      ) where rr between #{param2} AND #{param3}
+   </select>
+   <!-- 국가 검색 -->
+   <select id="mvSearchS" resultMap="mgMov">
+      select * from (
+         select rownum rr,A. * from(
+            select * from PJMOVIE where movie_group=#{param1}
+         )A
+      ) where rr between #{param2} AND #{param3}
+   </select>
+   <!-- 감독 검색 -->
+   <select id="dirSearch" resultMap="mgMov">
+      select * from (
+         select rownum rr,A. * from(
+            select * from PJDIR where dir_name=#{param1}
+         )A
+      ) where rr between #{param2} AND #{param3}
+   </select>
 </mapper>

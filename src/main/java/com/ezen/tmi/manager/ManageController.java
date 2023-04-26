@@ -34,7 +34,7 @@ import com.ezen.tmi.member.MemberBoardDTO;
 //매니저
 @Controller
 public class ManageController {
-	public	static	String img_path="C:\\Users\\3-2\\git\\TMI_project_Git\\TMI\\src\\main\\webapp\\imgsave";
+	public	static	String img_path="C:\\Users\\3-2\\git\\repository\\TMI\\src\\main\\webapp\\imgsave";
 
 	@Autowired
 	SqlSession ss;
@@ -756,7 +756,100 @@ public class ManageController {
 		 ms.oxcnt(bo_num);
 		return "redirect:/mg_boardDetail?bo_num="+bo_num;
 	}	
-	
+	@RequestMapping(value="/MgmvSearch")
+	   public String MgmvSearch(HttpServletRequest request, Model m, PageDTO pd) {
+	      HttpSession hs=request.getSession();
+	      String manager_id = (String) hs.getAttribute("manager_id");
+	       Boolean administrator_only = (Boolean) hs.getAttribute("administrator_only");
+	      if(administrator_only == null) {
+	         administrator_only=false;
+	      }
+	      boolean flag=administrator_only;
+	      if(manager_id == null||administrator_only != true) {
+	         hs.setAttribute("administrator_only", false);
+	         return "redirect:home";
+	      }else if(flag) {
+	         String now,pic;
+	         now=request.getParameter("page_now");
+	         pic=request.getParameter("page_in_Content");
+	         MgService msrv=ss.getMapper(MgService.class);
+	         int tt=msrv.movPageCnt();
+	         if(now==null&&pic==null) {
+	            now="1";
+	            pic="5";
+	         }
+	         else if(now==null) {
+	            now="1";
+	         }
+	         else if(pic==null) {
+	            pic="5";
+	         }
+	         pd=new PageDTO(tt, Integer.parseInt(now), Integer.parseInt(pic));
+	         int start=pd.getStart();
+	         int end=pd.getEnd();
+	         String jenre=null;
+	         int st=0;
+	         System.out.println("1");
+	         jenre=request.getParameter("jenre");
+	         System.out.println("2");
+	         st=Integer.parseInt(request.getParameter("state"));
+	         System.out.println("3");
+	         if(jenre!=null&&st==0) {
+	            System.out.println("4");
+	            m.addAttribute("out", msrv.mvSearchJ(jenre,start, end));
+	         }else if(jenre==null&&st!=0) {
+	            System.out.println("5");
+	            m.addAttribute("out", msrv.mvSearchS(st,start, end));
+	         }
+	         m.addAttribute("pg", pd);
+	         return "movie_Output";
+	      }
+	      else {
+	         hs.setAttribute("administrator_only", false);
+	         return "redirect:home";
+	      }
+	   }//영화 검색
+	   
+	   @RequestMapping(value = "/MgdirSearch")
+	   public String MgdirSearch(HttpServletRequest request, Model m,PageDTO pd) {
+	      HttpSession hs=request.getSession();
+	      String manager_id = (String) hs.getAttribute("manager_id");
+	       Boolean administrator_only = (Boolean) hs.getAttribute("administrator_only");
+	      boolean flag=administrator_only;
+	      if(administrator_only == null) {
+	         administrator_only=false;
+	      }
+	      if(manager_id == null||administrator_only != true) {
+	         hs.setAttribute("administrator_only", false);
+	         return "redirect:home";
+	      }else if(flag) {
+	         String now,pic;
+	         now=request.getParameter("page_now");
+	         pic=request.getParameter("page_in_Content");
+	         MgService dsrv=ss.getMapper(MgService.class);
+	         int tt=dsrv.movPageCnt();
+	         if(now==null&&pic==null) {
+	            now="1";
+	            pic="10";
+	         }
+	         else if(now==null) {
+	            now="1";
+	         }
+	         else if(pic==null) {
+	            pic="10";
+	         }
+	         pd=new PageDTO(tt, Integer.parseInt(now), Integer.parseInt(pic));
+	         int start=pd.getStart();
+	         int end=pd.getEnd();
+	         String dir=request.getParameter("dir");
+	         m.addAttribute("Dir", dsrv.dirSearch(dir,start,end));
+	         
+	         m.addAttribute("pg", pd);
+	         return "movieDir_Output";
+	      }
+	      else {
+	         return "redirect:home";}
+	   }//감독검색
 }
 
 

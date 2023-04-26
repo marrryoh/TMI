@@ -3,6 +3,56 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ezen.tmi.movie.MvService">
+<!-- 영화 DTO -->
+   <resultMap id="mgMov" type="com.ezen.tmi.manager.MgMovie_DTO">
+      <result column="movie_code" property="movie_code"/>
+      <result column="movie_name" property="movie_name"/>
+      <result column="movie_poster" property="movie_poster"/>
+      <result column="movie_director" property="movie_director"/>
+      <result column="movie_actor" property="movie_actor"/>
+      <result column="movie_rday" property="movie_rday"/>
+      <result column="movie_rtime" property="movie_rtime"/>
+      <result column="movie_jenre" property="movie_jenre"/>
+      <result column="movie_keyword" property="movie_keyword"/>
+      <result column="movie_plot" property="movie_plot"/>
+      <result column="movie_group" property="movie_group"/>
+      <result column="movie_link" property="movie_link"/>
+      <result column="movie_reserve" property="movie_reserve"/>
+      <result column="movie_pop" property="movie_pop"/>
+   </resultMap>
+<!-- 감독 DTO -->
+   <resultMap id="mgDir" type="com.ezen.tmi.manager.MgDirector_DTO">
+      <result column="dir_code" property="dir_code"/>
+      <result column="dir_name" property="dir_name"/>
+      <result column="dir_birth" property="dir_birth"/>
+      <result column="dir_aff" property="dir_aff"/>
+      <result column="dir_debut" property="dir_debut"/>
+      <result column="dir_info" property="dir_info"/>
+      <result column="dir_pic" property="dir_pic"/>
+   </resultMap>
+<!-- 멤버 DTO -->
+   <resultMap id="user" type="com.ezen.tmi.member.MemberDTO">
+      <result column="user_num" property="user_num"/>
+      <result column="user_id" property="dir_name"/>
+      <result column="user_pw" property="user_pw"/>
+      <result column="user_nic" property="user_nic"/>
+      <result column="user_birth" property="user_birth"/>
+      <result column="user_gender" property="user_gender"/>
+      <result column="user_address" property="user_address"/>
+   </resultMap>
+<!-- 별점 DTO -->
+   <resultMap id="star" type="com.ezen.tmi.movie.MvStarDTO">
+      <result column="mr_num" property="mr_num"/>
+      <result column="movie_code" property="movie_code"/>
+      <result column="mr_id" property="mr_id"/>
+      <result column="mr_star" property="mr_star"/>
+      <result column="mr_content" property="mr_content"/>
+      <result column="mr_like" property="mr_like"/>
+      <result column="mr_bad" property="mr_bad"/>
+      <result column="mr_day" property="mr_day"/>
+      <result column="user_nic" property="user_nic"/>
+   </resultMap>
+
 	<!-- 검색 된 모든 정보 수-->
 	<select id="getTotal" resultType="Integer">
 		select count(*) from pjmovie
@@ -40,4 +90,105 @@
 	<select id="sresult" resultType="com.ezen.tmi.movie.SearchDTO">
 		select * from pjsearch order by SEARCH_CNT DESC
 	</select>
+	
+	 <!-- 국가별검색결과 -->
+   <select id="searchtt" resultType="Integer">
+      select count(*) from pjmovie where movie_group=#{param1}
+   </select>
+   <!-- 국가별검색결과 -->
+   <select id="stateSearch" resultMap="mgMov">
+      select * from pjmovie where movie_group=#{param1} order by movie_code desc
+   </select>
+   <!-- 영화상세보기 -->
+   <select id="mvDetail" resultMap="mgMov">
+      select * from PJMOVIE where movie_code=#{param1}
+   </select><!-- 영화상세보기 -->
+   <!-- 로그인닉네임찾기 -->
+   <select id="mvUserNic" resultMap="user">
+      select USER_NIC from PJMEMBER where USER_ID=#{param1}
+   </select><!-- 로그인닉네임찾기 -->
+   <!-- 별점 페이징처리 -->
+   <select id="mvStarCnt" resultType="int">
+      select count(*) from PJMVREPLY where MOVIE_CODE=#{param1}
+   </select><!-- 별점 페이징처리 -->
+   <!-- 그 영화 평점 (페이징처리된) 쿼리문:최신순 -->
+   <select id="starOutNEW" resultMap="star" parameterType="com.ezen.tmi.manager.PageDTO">
+      select * from (select rownum rr,A. * from
+         (select cast(star.mr_num as number) as mr_num, star.movie_code, star.mr_id, star.mr_star
+         , star.mr_content, star.mr_like, star.mr_day, mem.user_nic
+          from PJMVREPLY star JOIN pjmember mem ON star.mr_id=mem.user_id
+          WHERE star.MOVIE_CODE = #{param1} order by star.MR_DAY desc)A
+      ) where rr between  #{param2.start} AND #{param2.end}
+   </select><!-- 그 영화 평점 게시판:최신순 -->
+   <!-- 평점게시판:추천순 -->
+   <select id="starOutGOOD" resultMap="star" parameterType="com.ezen.tmi.manager.PageDTO">
+      select * from (select rownum rr,A. * from
+         (select star.mr_num, star.movie_code, star.mr_id, star.mr_star
+         , star.mr_content, star.mr_like, star.mr_day, mem.user_nic
+          from PJMVREPLY star JOIN pjmember mem ON star.mr_id=mem.user_id
+          WHERE star.MOVIE_CODE = #{param1} order by star.mr_like desc)A
+      ) where rr between  #{param2.start} AND #{param2.end}
+   </select><!-- 그 영화 평점:추천순 -->
+   <!-- 평점:내꺼 -->
+   <select id="starOutME" resultMap="star">
+      select star.mr_num, star.movie_code, star.mr_id, star.mr_star
+      , star.mr_content, star.mr_like, star.mr_day, mem.user_nic
+       from PJMVREPLY star JOIN pjmember mem ON star.mr_id=mem.user_id
+       WHERE star.MOVIE_CODE = #{param1}
+   </select><!-- 그 영화 평점:추천순 -->
+   <!-- 찜여부 -->
+   <select id="mvD_JimCheck" resultType="Integer">
+      select count(*) from PJLIKE where like_id=#{param1} and like_code=#{param2}
+   </select><!-- 찜여부 -->
+   <!-- 추천영화:장르 and 키워드 카운팅 -->
+   <select id="jenreNkey" resultType="Integer">
+   <![CDATA[
+      SELECT count(*) FROM pjmovie
+      WHERE EXISTS (
+         SELECT 1 FROM (
+            SELECT TRIM(REGEXP_SUBSTR(#{param1}, '[^,]+', 1, LEVEL)) AS genre
+             FROM dual CONNECT BY LEVEL <= REGEXP_COUNT(#{param1}, ',') + 1
+         ) g
+          WHERE pjmovie.movie_jenre LIKE '%' || g.genre || '%'
+      ) AND EXISTS (
+         SELECT 1 FROM (
+            SELECT TRIM(REGEXP_SUBSTR(#{param2}, '[^,]+', 1, LEVEL)) AS keyword
+             FROM dual CONNECT BY LEVEL <= REGEXP_COUNT(#{param2}, ',') + 1
+         ) k WHERE pjmovie.movie_keyword LIKE '%' || k.keyword || '%'
+      )
+   ]]>
+   </select><!-- 장르랑 키워드 같은 애 찾기 -->
+   <!-- 추천영화: 장르 or 키워드 -->
+   <select id="jORk" resultMap="mgMov">
+   <![CDATA[
+      SELECT * FROM (
+         SELECT * FROM pjmovie WHERE (REGEXP_LIKE(movie_jenre, '(^|\W)(' || REPLACE(#{param1}, ',', '|') || ')(\W|$)')
+         or REGEXP_LIKE(movie_keyword, '(^|\W)(' || REPLACE(#{param2}, ',', '|') || ')(\W|$)'))
+         AND movie_code <> #{param3}
+         ORDER BY dbms_random.value()
+      ) WHERE ROWNUM <= 7
+  ]]>
+</select><!-- 장르 or 키워드 추천 -->
+   <!-- 장르 and 키워드 추천 -->
+   <select id="ccMovie" resultMap="mgMov">
+      <![CDATA[
+         SELECT * FROM pjmovie p WHERE movie_code <> #{param3} AND EXISTS (
+            SELECT 1 FROM (
+               SELECT TRIM(REGEXP_SUBSTR(#{param1}, '[^,]+', 1, LEVEL))
+                AS genre FROM dual CONNECT BY LEVEL <= REGEXP_COUNT(#{param1}, ',') + 1
+            ) g
+             WHERE p.movie_jenre LIKE '%' || g.genre || '%'
+         ) AND EXISTS (
+            SELECT 1 FROM (
+               SELECT TRIM(REGEXP_SUBSTR(#{param2}, '[^,]+', 1, LEVEL)) AS keyword
+                FROM dual CONNECT BY LEVEL <= REGEXP_COUNT(#{param2}, ',') + 1
+            ) k WHERE p.movie_keyword LIKE '%' || k.keyword || '%'
+         )
+      ]]>
+   </select><!-- 장르랑 키워드 같은 애 찾기 -->
+   <!-- 평점 중복 입력 방지 쿼리문-->
+   <select id="doubleStar" resultType="Integer">
+      select count(*) from PJMVREPLY where movie_code=#{param1} and mr_id=#{param2}
+   </select><!-- 찜여부 -->
+	
 </mapper>

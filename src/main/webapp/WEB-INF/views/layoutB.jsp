@@ -17,7 +17,6 @@
   			position: relative;
 		 }
          #body {
-            text-align: center;
             width: 100%;
             height: 100%
             z-index:10;
@@ -47,6 +46,7 @@
             width : 400px;
             margin: auto;
             padding: 10px;
+            text-align: center;
          }
          #memberinput h1{text-align:center;}
          div.id-span-area{
@@ -157,6 +157,7 @@
          div.rightNav{
             display: flex;
             flex-direction: row-reverse;
+            z-index: 15;
          }
          div.navHead a.navHome {
             font-size: 1.5em;
@@ -327,6 +328,7 @@
             max-width: 80%;
             height: 30px;
             border: 0px;
+            margin-left: 10px;
          }
          span.search_span{
             padding : 10px 10px 10px 20px;
@@ -560,6 +562,7 @@
      margin:auto;
      margin-top : 80px;
      margin-bottom : 130px;
+     text-align: center;
     }
     #QnA_Area_top
     {
@@ -573,7 +576,7 @@
     #QnA_spanArea
     {
    		display: flex;
-        width : 270px;
+        width : 350px;
         height: 30px;
         padding : 5px 5px 5px 5px;
     }
@@ -604,6 +607,7 @@
 	#QnA_w
 	{
 	margin: 20px;
+	text-align: center;
 	}
 	#submit {
 	width : 100px;
@@ -613,8 +617,275 @@
 	background:#282A35;
 	margin : 5px;
 	}
-	
-	
+
+         /*별점버튼 외각 박스 삭제 혹은 수정*/
+         span.starRating_span{
+            border: #555555 solid 1px;
+            border-radius: 40px;
+            color: #000000;
+            padding: 18px 28px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+         }span.btn_popup:hover{
+            border: #fdd000 solid 2px;
+            background-color: #fdd000;
+            border-radius: 40px;
+            color: #000000;
+            padding: 18px 28px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+         }
+         
+         #popup {
+         display: none;
+         position: fixed;
+         top: 50%;
+         left: 50%;
+         width: 300px;
+         height: 120px;
+         transform: translate(-50%, -50%);
+         background-color: #fff;
+         border: 1px solid #ccc;
+         padding: 20px;
+         box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+         z-index: 9999;
+         }
+         #starRating_pop {
+         display: none;
+         position: fixed;
+         top: 50%;
+         left: 50%;
+         width: 300px;
+         height: 120px;
+         transform: translate(-50%, -50%);
+         background-color: #fff;
+         border: 1px solid #ccc;
+         padding: 20px;
+         box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+         z-index: 9999;
+      }
+         
+         
+         /*헤드라인 : MvDetail_headLine*/
+         div.MvDetail_head{/* 디테일 페이지 영화제목란 전체 공간*/
+            height: 95vh;
+            display: flex;
+            position: static;
+            flex-direction: column;
+            justify-content: flex-end;
+         }div.MvDetail_text{/*제목, 상영중, 감독 등, 영화제목란 중 하단 부분 텍스트 영역*/
+            width: 100%;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+         }div.MvDetail_txtTitle{/*제목 라인 영역*/
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            border-style: none;
+            align-items: center;
+            padding: 10px;
+         }h1.MvDtxt_tit{/*제목*/
+            max-width: 100%;
+            color: white;
+            font-size: 400%;
+            font-weight: 800;
+            white-space : nowrap;
+            text-overflow: clip;
+            margin-left: 5px;
+            margin-right: 20px;
+            text-shadow: 2px 2px 4px #30260F;/*제목그림자*/
+         }p.MvDtxt_new{/*상영중*/
+            margin: 7px;
+            font-size: 1.4em;
+         }p.MvDtxt_like{/*찜*/
+            margin: 7px;
+            font-size: 1.6em;
+         }li.mvDetail_txtInfo{/*바디:헤더 텍스트 영역 - 감독, 배우*/
+            list-style-type: none;
+            font-size: 1.4em;
+            color: white;
+            padding: 3px;
+            margin: 2px;
+            text-shadow: 1px 1px 3px #7C5436;
+            font-family: 고딕;
+            overflow: auto;
+         }
+         /*바디구역 : MvDetail_body*/
+         div.MvDetail_body{/*컨텐츠 바디 전체*/
+            padding: 0.4em;
+            display: flex;
+            flex-direction: row;
+            position: relative;
+         }div.Mvbody_contentArea{/*네비 제외한 컨텐츠 영역*/
+            margin: 1px 10px 1px 1px;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            width: 75%;
+         }div.EmptyArea{/*좌측빈칸용*/
+            width: 5%;
+         }div.rightNav_Area{/*우측 네브 영역*/
+            position: relative;
+            overflow: hidden;
+            width: 15%;
+            float: right;
+         }div.mvDetail_ulArea{/*바디:정보-*/
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;s
+         }ul.mvDetail_ul{
+            display: flex;
+            flex-direction: row;
+            list-style-type: none;
+            padding-inline-start: 0;
+            margin-block-start: 0;
+            padding: 1em 0em 0.8em 0em;
+         }ul.mvDetail_ul li{
+            display: flex;
+            flex-direction: row;
+            list-style-type: none;
+            color: #9EA4A5;
+            align-items: flex-end;
+         }div.mvDetail_ulArea hr{
+            display: initial;
+            unicode-bidi: initial;
+            margin-block-start: initial;
+            margin-block-end: initial;
+            margin-inline-start: initial;
+            margin-inline-end: initial;
+            overflow: visible;
+            border-style: solid;
+            border-width: 0.3px;
+            border-color: #DADEDF;
+            margin: 25px 0px 25px 0px;
+         }span.mv_txt{
+            color: #26160C;
+            font-family: monospace;
+            font-size: 1.2em;
+            font-weight: 800;
+         }div.mvDetail_Mvtxt{
+            margin: 35px 1px 30px 0px;
+            padding: 15px 1px 15px 0px;
+            color: #65625D;
+            font-family: fantasy;
+            font-size: 1.07em;
+            font-weight: 500;
+            line-height:1.7; 
+         }div.mvDetail_Mvtxt b{
+            font-weight: 700;
+            font-size: 1.1em;
+         }div.mvDetail_YOUTUBE{
+            display: flex;
+            width: 100%;
+            position: relative;
+            max-width: 960px;
+            min-width: 100px;
+            margin: 5px 5px 20px 0px;
+         }div.mvDetail_YOUTUBE video#myVideo{
+            width: 100%;
+         }div.board_header{
+            width: 100%;
+            margin: 30px 0px 30px 0px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+         }span.starRating_span{
+            border: #555555 solid 1px;
+            border-radius: 40px;
+            color: #282A35;
+            padding: 12px 18px;
+            text-decoration: none;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin : 0px 20px 0px 10px;
+         }button.starRating_New,.starRating_like,.starRating_ME{
+            width: 5.3em;
+            height: 2.4em;
+            border: 0px;
+            color: white;
+            background: #282A35;
+            margin: 3px 5px 3px 5px;
+            border-radius: 8px;
+         }
+      /*영화추천 횡스크롤용 버튼*/
+         div.MvF_contentOutside {
+            display: flex;
+            flex-direction: row;
+            overflow-x: scroll;
+            white-space: nowrap;
+            scroll-behavior: smooth;
+            margin: 15px;
+         }div.MvF_contentOutside::-webkit-scrollbar {
+            height: 0; /* 숨김 처리 */
+            width: 0;
+            background-color: transparent;
+         }
+         div.MvF_contentArea{
+            display: flex;
+            flex-direction: column;
+            height: 520px;
+            width: 290px;
+            margin: 10px;
+            padding: 5px;
+         }div.MvfC_poster{
+            padding-bottom: 5px;
+         }div.MvfC_text{
+            margin-top: 15px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+         }div.MvfC_text span{
+            display: block;
+            white-space: pre-wrap;
+            font-family: fantasy;
+            font-size: 1em;
+            color:#65625D;
+         }div.MvfC_text span.ccJenre{
+            font-size: 0.88em;
+            margin-top: 10px;
+            margin-bottom: 20px;
+         }
+         div.MvDetail_foot{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 23px;
+            background-color: white;
+         }div.MvFooter_head{
+            display: flex;
+            flex-direction: column;
+            margin: 1px 1px 10px 10px;
+         }div.MvFooter_head h2{
+            color: #26160C;
+            margin-bottom: 10px;
+         }div.MvF_buttonArea{
+            display: flex;
+            flex-direction: row;
+            padding: 1px 2px 1px 2px;
+            align-items: center;
+            justify-content: flex-start;
+         }button.left-button, button.right-button{
+            margin: 1px 8px 1px 8px;
+            width: 3em;
+            height: 3em;
+            background: #282A35;
+            border-radius: 30px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color : #282A35;
+         }span.CCbutton{
+            font-size: 1em;
+            font-weight: 700;
+            color: white;
+         }
+      
 	
       </style>
       <meta charset="UTF-8">

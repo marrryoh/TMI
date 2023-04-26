@@ -165,11 +165,13 @@
       });
    };
    
-      window.addEventListener("DOMContentLoaded", () => {
-           const today = new Date().toISOString().split('T')[0];
-           const mgReleasedateEl = document.getElementById("mgReleasedate");
-            mgReleasedateEl.setAttribute("max", today);
-         });
+ //날짜
+   window.addEventListener("DOMContentLoaded", () => {
+      const today = new Date();
+      const matDay = new Date(today.setMonth(today.getMonth() + 3)).toISOString().split('T')[0];
+      const mgReleasedateEl = document.getElementById("mgReleasedate");
+      mgReleasedateEl.setAttribute("max", matDay);
+   });
       
       </script>
    </head>
@@ -346,11 +348,11 @@
                   </tr>
                   <tr height="35">
                      <th>예매주소</th>
-                     <td colspan="5"><input type="text" name="mgLink" size="58px"></td>
+                     <td colspan="5"><input type="text" name="mgReserve" size="58px"></td>
                   </tr>
                   <tr height="35">
                      <th>예고편</th>
-                     <td colspan="5"><input type="text" name="mgReserve" size="58px"></td>
+                     <td colspan="5"><input type="text" name="mgLink" size="58px"></td>
                   </tr>
                   <tr>
                      <td class="button_td" colspan="6">

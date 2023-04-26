@@ -20,6 +20,7 @@
 		</style>
 	</head>
 	<body>
+	<div id="wrap">
 		<div class="mainBody_area">
 			<div class="movOut_area" style="text-align: center;">
 				<table border="1" align="center">
@@ -33,7 +34,7 @@
 						<th></th>
 					</tr>
 					<c:forEach items="${Dir}" var="o">
-						<tr class="count-1">
+						<tr class="count-1" height="50">
 							<td></td><!-- 순번 -->
 							<td>${o.dir_code}</td>
 							<td>　<a href="manager_DirDetails?a=${o.dir_code}">${o.dir_name}</a>　</td>
@@ -45,21 +46,21 @@
 					</c:forEach>
 					<tr class="no-count" style="border-left: none;border-right: none;border-bottom: none">
 						<td colspan="7" style="text-align: center;">
-						<c:if test="${pg.pageStart!=1 }">
-								<a href="movie_Output?page_now=${pg.pageStart-1 }&page_in_Contente=${pg.cnt_in_Page}">◀</a>
+						<c:if test="${pg.startPage!=1 }">
+								<a href="movieDir_Output?nowPage=${pg.startPage-1 }&cntPerPage=${pg.cntPerPage}">◀</a>
 							</c:if>
-							<c:forEach begin="${pg.pageStart}" end="${pg.pageEnd}" var="p">
+							<c:forEach begin="${pg.startPage}" end="${pg.endPage}" var="p">
 								<c:choose>
-									<c:when test="${p == pg.pageNow }">
+									<c:when test="${p == pg.nowPage }">
 										<b><span style="color: #2F95D0;font-family: bold">${p}</span></b>
 									</c:when>
-									<c:when test="${p != pg.pageNow }">
-										<a href="movie_Output?page_now=${p}&page_in_Content=${pg.cnt_in_Page}">${p}</a>
+									<c:when test="${p != pg.nowPage }">
+										<a href="movieDir_Output?nowPage=${p}&cntPerPage=${pg.cntPerPage}">${p}</a>
 									</c:when>
 								</c:choose>
 							</c:forEach>
-							<c:if test="${pg.pageEnd != pg.pageLast}">
-								<a href="movie_Output?page_now=${pg.pageEnd+1}&page_in_Content=${pg.cnt_in_Page }">▶</a>
+							<c:if test="${pg.endPage != pg.lastPage}">
+								<a href="movieDir_Output?nowPage=${pg.endPage+1}&cntPerPage=${pg.cntPerPage}">▶</a>
 							</c:if>
 						</td>
 					</tr>
@@ -67,5 +68,6 @@
 			<br>
 		</div>
 		</div>
+	  </div>	
 	</body>
 </html>

@@ -235,17 +235,24 @@
               rdate.value = rdate.max;
            }
          });
+        //날짜
+          window.addEventListener("DOMContentLoaded", () => {
+             const today = new Date();
+             const matDay = new Date(today.setMonth(today.getMonth() + 3)).toISOString().split('T')[0];
+             const mgReleasedateEl = document.getElementById("mgReleasedate");
+             mgReleasedateEl.setAttribute("max", matDay);
+          });
       };
          
       </script>
    </head>
-   <jsp:include page="manager_Header.jsp"/>
    <body>
+   <div id="wrap">
       <div class="mainBody_area">
          <div class="mg_movInpt_form_area">
             <form action="movie_Update" method="post" name="movin_form" enctype="multipart/form-data">
                <table class="mvInput_table" align="center">
-                  <caption>영화등록</caption>
+                  <caption><h3>영화 수정</h3></caption>
                   <tr>
                      <th>영화제목 *</th>
                      <td colspan="4"><input type="text" name="mgMovie" size="45px" id="mgMovie" value="${modi.movie_name}"></td>
@@ -411,15 +418,14 @@
                   </tr>
                   <tr>
                      <th>예매주소</th>
-                     <td colspan="5"><input type="text" name="mgLink" size="58px" value="${modi.movie_link}"></td>
-                  </tr>
-                  <tr>
-                     <th>예고편</th>
                      <td colspan="5"><input type="text" name="mgReserve" size="58px" value="${modi.movie_reserve}"></td>
                   </tr>
                   <tr>
+                     <th>예고편</th>
+                     <td colspan="5"><input type="text" name="mgLink" size="58px" value="${modi.movie_link}"></td>
+                  </tr>
+                  <tr>
                      <td class="button_td" colspan="6">
-                        <input type="reset" value="리셋">
                         <input type="hidden" id="nn">
                         <input type="button" value="수정" id="mgMov_submit">
                         <a href="movie_Del?a=${modi.movie_code}"><input type="button" value="삭제"></a>
@@ -429,5 +435,6 @@
             </form>
          </div>
       </div>
+    </div>  
    </body>
 </html>

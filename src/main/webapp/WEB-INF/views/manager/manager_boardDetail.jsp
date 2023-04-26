@@ -48,12 +48,13 @@
 		
 	<div id="QnA_area_All">		 	
  		<form id="QnAreply" action="replysave">
-	 		<div id="QnA_area">
+	 		<div id="QnA_Reply_area">
 	 			<div id="QnA_Area_Re"><h3>답변 남기기</h3></div>
-	 		 	<textarea rows="5" cols="120" name="re_content"></textarea>
-	 		<input type="hidden" name="bo_num" value="${myb.bo_num}">		
- 			<input type="submit" value="저장" id="submit">
-  			<button type="button" onclick="location.href='manager_QnA_Out'">목록으로</button>
+	 		 	<textarea rows="7" cols="120" name="re_content"></textarea>
+	 		 	  <div id="QnA_Reply_btn">
+	 				<input type="hidden" name="bo_num" value="${myb.bo_num}">		
+ 					<input type="submit" value="저장" id="submit">
+  					<button type="button" onclick="location.href='manager_QnA_Out'">목록으로</button> </div>
  			</div>
  		</form>
  	</div>	  

@@ -44,4 +44,13 @@ public interface MemService {
 	public MemberBoardDTO boarddetail(int num);
 	//문의글 댓글 불러오기
 	public ArrayList<ReplyDTO> replyout(int bo_num);
+	
+	public void starin(int movie, String id, int star, String text);//별점 등록
+	public void mvJimm(String myid, int mv);//찜하기
+	public int mJimCheck(String myid, int mv);//찜여부확인하기
+	public void mvJimmDel(String myid, int mv);//찜 삭제하기
+	public ArrayList<JimDTO> memberJjim(String login_id);//찜목록
+	public int countlike(int aa, String id);//댓글 추천여부
+	public void ilikeit(int aa, String login_id);//댓글 추천하기
+	public void joayoUP(int aa);//추천받은 댓글의 좋아요가 올라갑니다
 }

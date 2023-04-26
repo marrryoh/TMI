@@ -108,6 +108,7 @@
 		</script>
 	</head>
 	<body>
+	<div id="wrap">
 		<div class="mainBody_area">
 			<div class="mg_movInpt_form_area">
 				<form action="MgDirSave" method="post" name="din_form" enctype="multipart/form-data">
@@ -148,5 +149,6 @@
 				</form>
 			</div>
 		</div>
+	  </div>	
 	</body>
 </html>
